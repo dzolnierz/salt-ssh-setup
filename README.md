@@ -1,5 +1,5 @@
 salt-ssh-setup
 ==============
 
-Setup salt-ssh to run as a non-root use.
+Setup salt-ssh to run as a non-root user.
 
