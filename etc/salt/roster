@@ -1,0 +1,12 @@
+localhost:
+  host: localhost
+  user: salt-dev
+  sudo: True
+  minion_opts:
+    grains:
+      roles:
+        - salt-dev
+      tags:
+        env: dev
+        dc: local
+        role: salt-dev

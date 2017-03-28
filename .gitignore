@@ -1,0 +1,5 @@
+etc/salt/pki/master/ssh/**
+var/cache/salt/master/**
+var/log/salt/**
+!.keep
+!.empty
