@@ -19,6 +19,6 @@ And add your minions to roster.
 ## Usage
 
 ```shell
-source ./salt-ssh-wrapper.sh
+source ./salt-ssh.wrapper.sh
 salt-ssh '*' test.ping
 ```
