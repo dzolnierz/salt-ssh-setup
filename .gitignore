@@ -1,6 +1,10 @@
+etc/salt/master
 etc/salt/roster
 etc/salt/pki/master/ssh/**
 var/cache/salt/master/**
 var/log/salt/**
+*.sls
+*.jinja
+*.j2
 !.keep
 !.empty
