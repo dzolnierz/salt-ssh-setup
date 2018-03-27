@@ -4,6 +4,7 @@ etc/salt/pki/master/ssh/**
 srv/pillar/**
 srv/reactor/**
 srv/salt/**
+!srv/salt/_**
 var/cache/salt/master/**
 var/log/salt/**
 *.sls
