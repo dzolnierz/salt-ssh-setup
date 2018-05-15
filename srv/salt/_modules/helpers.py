@@ -1,2 +1,4 @@
 def splitpart(value, index, char = ','):
-  return value.split(char)[index]
+  if value is not None:
+      return value.split(char)[index]
+  return ''
