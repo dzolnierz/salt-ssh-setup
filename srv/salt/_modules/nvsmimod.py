@@ -11,7 +11,7 @@ from salt.utils.decorators import depends
 
 
 # Define the module's virtual name
-__virtualname__ = "nvsmi"
+__virtualname__ = "nvsmimod"
 
 
 def __virtual__():
