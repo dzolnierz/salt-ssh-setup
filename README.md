@@ -2,6 +2,7 @@
 
 Setup salt-ssh to run as a non-root user.
 
+
 ## Installation
 
 Assume you have already installed salt-ssh.
@@ -16,9 +17,10 @@ touch ./etc/salt/roster
 
 And add your minions to roster.
 
+
 ## Usage
 
 ```shell
-source ./salt-ssh.wrapper.sh
+source salt.bash  # or salt.zsh
 salt-ssh '*' test.ping
 ```
