@@ -27,7 +27,7 @@ def __virtual__():
                 "The nvsmi execution module cannot be loaded: "
                 "nvsmi library requires the command nvidia-smi"
             )
-    else:
+    else: 
         return (
             False,
             "The nvsmi execution module cannot be loaded: "

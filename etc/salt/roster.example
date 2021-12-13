@@ -1,6 +1,8 @@
 localhost:
   host: localhost
   user: salt-dev
+  passwd: **PASSWORD**
+  tty: True
   sudo: True
   minion_opts:
     grains:

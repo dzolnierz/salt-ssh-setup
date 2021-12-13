@@ -3,6 +3,7 @@ import logging
 import salt.utils.json
 from salt.utils.decorators.jinja import jinja_filter
 
+
 log = logging.getLogger(__name__)
 
 
