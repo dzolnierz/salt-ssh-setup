@@ -1,12 +1,11 @@
 etc/salt/master
 etc/salt/roster
 etc/salt/pki/master/ssh/**
-srv/pillar/**
-srv/reactor
-srv/salt/**
-!srv/salt/_**
-var/cache/salt/master/**
-var/log/salt/**
+pillar/**
+reactor
+salt/**
+!salt/_**
+var/**
 *.sls
 *.jinja
 *.j2

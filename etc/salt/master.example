@@ -2,10 +2,10 @@ root_dir: .
 
 file_roots:
   base:
-    - srv/salt
+    - salt
 
 pillar_roots:
   base:
-    - srv/pillar
+    - pillar
 
 ssh_log_file: var/log/salt/ssh

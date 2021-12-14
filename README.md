@@ -8,14 +8,13 @@ Setup salt-ssh to run as a non-root user.
 Assume you have already installed salt-ssh.
 
 ```shell
-test -d ./workdir || mkdir -p ./workdir
-git clone git@github.com:dzolnierz/salt-ssh-setup.git ./workdir/salt-ssh-setup
-cd ./workdir/salt-ssh-setup
-cp ./etc/salt/master.example ./etc/salt/master
-touch ./etc/salt/roster
+git clone git@github.com:dzolnierz/salt-ssh-setup.git
+cd salt-ssh-setup
+cp etc/salt/master.example etc/salt/master
+touch etc/salt/roster
 ```
 
-And add your minions to roster.
+And add your minions to roster file.
 
 
 ## Usage
