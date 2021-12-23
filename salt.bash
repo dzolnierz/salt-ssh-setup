@@ -11,9 +11,11 @@ if salt --version >/dev/null 2>&1 ; then
         }
     fi
 
-    alias salt='sudo salt'
-    alias salt-cp='sudo salt-cp'
-    alias salt-key='sudo salt-key'
-    alias salt-call='sudo salt-call'
-    alias salt-run='sudo salt-run'
+	__sudo_defaults='--preserve-env=JC_PARSER'
+    alias salt="sudo $__sudo_defaults salt"
+    alias salt-cp="sudo $__sudo_defaults salt-cp"
+    alias salt-key="sudo $__sudo_defaults salt-key"
+    alias salt-call="sudo $__sudo_defaults salt-call"
+    alias salt-run="sudo $__sudo_defaults salt-run"
+    unset __sudo_defaults
 fi
