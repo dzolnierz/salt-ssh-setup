@@ -12,7 +12,7 @@ def __virtual__():
     return __virtualname__
 
 
-def unseal(keys, vault_url=None):
+def unseal(keys, vault_url=None, verify=False):
     """
     Unseal Vault server
 
@@ -39,7 +39,7 @@ def unseal(keys, vault_url=None):
     url = "{}/{}".format(vault_url, resource)
     for key in keys:
         log.debug("Debug key '%s'", key)
-        ret = requests.put(url, data=json.dumps({"key": key})).json()
+        ret = requests.put(url, data=json.dumps({"key": key}), verify=verify).json()
         log.debug("Debug ret '%s'", ret['sealed'])
         if ret["sealed"] is False:
             return True

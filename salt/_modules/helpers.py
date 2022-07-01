@@ -8,9 +8,9 @@ def splitpart(value, index, char=','):
     return ''
 
 
-def parse_debver(value):
+def parse_pkgver(value):
     try:
-        return re.findall(r"(?:\d+:)?([^~]+)", value)[0]
+        return re.findall(r"(?:\d+:)?([^~-]+)", value)[0]
     except:
         return ''
 
