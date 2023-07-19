@@ -152,12 +152,12 @@ def list_users(profile="gitlab", active=False, external=False, exclude_external=
     return __context__[key]
 
 
-def get_user(email, profile="gitlab", ignore_cache=False):
+def get_user(user_search_term, profile="gitlab", ignore_cache=False):
     """
     Get user info.
 
-    email
-        The user's email address.
+    user_search_term
+        The user's name, username, or public email.
 
     profile
         The name of the profile configuration to use. Defaults to ``gitlab``.
@@ -173,24 +173,24 @@ def get_user(email, profile="gitlab", ignore_cache=False):
         salt myminion gitlab.get_user john.doe@example.com profile='my-gitlab-profile'
     """
     private_token = _get_config_value(profile, "private_token")
-    key = "gitlab.{}:user:{}".format(private_token, email)
+    key = "gitlab.{}:user:{}".format(private_token, user_search_term)
     if key not in __context__ or ignore_cache:
         client = _get_client(profile)
         try:
-            user = client.users.list(search=email)[0]
-            __context__[key] = {"id": user.id, "username": user.username, "state": user.state}
+            user = client.users.list(search=user_search_term)[0]
+            __context__[key] = {"id": user.id, "username": user.username, "email": user.email, "state": user.state, "2fa": user.two_factor_enabled}
         except IndexError:
-            log.exception("User '{}' not found".format(email))
+            log.exception("User '{}' not found".format(user_search_term))
             return False
     return __context__[key]
 
 
-def block_user(username, profile="gitlab"):
+def block_user(user_search_term, profile="gitlab"):
     """
     Set user state to ``blocked``.
 
-    username
-        The username.
+    user_search_term
+        The user's name, username, or public email.
 
     profile
         The name of the profile configuration to use. Defaults to ``gitlab``.
@@ -199,27 +199,28 @@ def block_user(username, profile="gitlab"):
 
     .. code-block:: bash
 
-        salt myminion gitlab.block_user john.doe
-        salt myminion gitlab.block_user john.doe profile='my-gitlab-profile'
+        salt myminion gitlab.block_user john.doe@example.com
+        salt myminion gitlab.block_user john.doe@example.com profile='my-gitlab-profile'
     """
     client = _get_client(profile)
     try:
-        user = client.users.list(username=username)[0]
-        user.two_factor_enabled = False
+        user = client.users.list(search=user_search_term)[0]
     except IndexError:
-        log.exception("User '{}' not found".format(username))
+        log.exception("User '{}' not found".format(user_search_term))
         return False
     if user.state == "active":
         user.block()
+    if user.two_factor_enabled:
+        user.two_factor_enabled = False
     return not user.state == "active"
 
 
-def delete_user_ssh_keys(username, profile="gitlab"):
+def delete_user_ssh_keys(user_search_term, profile="gitlab"):
     """
     Delete all SSH keys owned by the user.
 
-    username
-        The username.
+    user_search_term
+        The user's name, username, or public email.
 
     profile
         The name of the profile configuration to use. Defaults to ``gitlab``.
@@ -228,25 +229,25 @@ def delete_user_ssh_keys(username, profile="gitlab"):
 
     .. code-block:: bash
 
-        salt myminion gitlab.delete_user_ssh_keys john.doe
-        salt myminion gitlab.delete_user_ssh_keys john.doe profile='my-gitlab-profile'
+        salt myminion gitlab.delete_user_ssh_keys john.doe@example.com
+        salt myminion gitlab.delete_user_ssh_keys john.doe@example.com profile='my-gitlab-profile'
     """
     client = _get_client(profile)
     try:
-        user = client.users.list(username=username)[0]
+        user = client.users.list(search=user_search_term)[0]
         [key.delete() for key in user.keys.list()]
     except IndexError:
-        log.exception("User '{}' not found".format(username))
+        log.exception("User '{}' not found".format(user_search_term))
         return False
     return not user.keys.list()
 
 
-def delete_personal_access_tokens(username, profile="gitlab"):
+def delete_personal_access_tokens(user_search_term, profile="gitlab"):
     """
     Delete all Personal Access Tokens owned by the user.
 
-    username
-        The username.
+    user_search_term
+        The user's name, username, or public email. 
 
     profile
         The name of the profile configuration to use. Defaults to ``gitlab``.
@@ -255,14 +256,14 @@ def delete_personal_access_tokens(username, profile="gitlab"):
 
     .. code-block:: bash
 
-        salt myminion gitlab.delete_personal_access_tokens john.doe
-        salt myminion gitlab.delete_personal_access_tokens john.doe profile='my-gitlab-profile'
+        salt myminion gitlab.delete_personal_access_tokens john.doe@example.com
+        salt myminion gitlab.delete_personal_access_tokens john.doe@example.com profile='my-gitlab-profile'
     """
     client = _get_client(profile)
     try:
-        user = client.users.list(username=username)[0]
+        user = client.users.list(search=user_search_term)[0]
         [token.delete() for token in client.personal_access_tokens.list(user_id=user.id, state="active")]
     except IndexError:
-        log.exception("User '{}' not found".format(username))
+        log.exception("User '{}' not found".format(user_search_term))
         return False
     return not client.personal_access_tokens.list(user_id=user.id, state="active")
