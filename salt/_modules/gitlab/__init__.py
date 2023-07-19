@@ -144,11 +144,14 @@ def list_users(profile="gitlab", active=False, external=False, exclude_external=
     key = "gitlab.{}:users".format(private_token)
     if key not in __context__ or ignore_cache:
         client = _get_client(profile)
-        __context__[key] = [users.username for users in client.users.list(active=active,
-                                                                          external=external,
-                                                                          exclude_external=exclude_external,
-                                                                          blocked=blocked,
-                                                                          iterator=True)]
+        __context__[key] = [
+            {"id": user.id, "username": user.username, "email": user.email, "state": user.state, "2fa": user.two_factor_enabled}
+            for user in client.users.list(active=active,
+                                          external=external,
+                                          exclude_external=exclude_external,
+                                          blocked=blocked,
+                                          iterator=True)
+        ]
     return __context__[key]
 
 
