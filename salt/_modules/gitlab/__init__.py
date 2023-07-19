@@ -118,7 +118,10 @@ def list_groups(profile="gitlab", ignore_cache=False):
     key = "gitlab.{}:groups".format(private_token)
     if key not in __context__ or ignore_cache:
         client = _get_client(profile)
-        __context__[key] = [group.full_path for group in client.groups.list(iterator=True)]
+        __context__[key] = [
+            {"id": group.id, "name": group.name, "full_path": group.full_path}
+            for group in client.groups.list(iterator=True)
+        ]
     return __context__[key]
 
 

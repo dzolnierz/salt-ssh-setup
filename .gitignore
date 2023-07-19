@@ -11,3 +11,5 @@ var/**
 *.j2
 !.keep
 !.empty
+__pycache__
+*.sw[a-z]
