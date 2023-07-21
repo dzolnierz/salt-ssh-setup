@@ -6,12 +6,12 @@ if salt --version >/dev/null 2>&1 ; then
             test -d $SALT_SSH_DIR && {
                 pushd $SALT_SSH_DIR
                 /usr/bin/salt-ssh $@
-				popd
+                popd
             }
         }
     fi
 
-	__sudo_defaults='--preserve-env=JC_PARSER'
+    __sudo_defaults='--preserve-env=JC_PARSER'
     alias salt="sudo $__sudo_defaults salt"
     alias salt-cp="sudo $__sudo_defaults salt-cp"
     alias salt-key="sudo $__sudo_defaults salt-key"
