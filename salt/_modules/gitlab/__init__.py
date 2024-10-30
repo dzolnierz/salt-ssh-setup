@@ -148,7 +148,7 @@ def list_users(profile="gitlab", active=False, external=False, exclude_external=
     if key not in __context__ or ignore_cache:
         client = _get_client(profile)
         __context__[key] = [
-            {"id": user.id, "username": user.username, "email": user.email, "state": user.state, "2fa": user.two_factor_enabled}
+            {"id": user.id, "username": user.username, "emails": [{"id": v.id, "email": v.email} for k, v in enumerate(user.emails.list())], "state": user.state, "2fa": user.two_factor_enabled}
             for user in client.users.list(active=active,
                                           external=external,
                                           exclude_external=exclude_external,
@@ -184,7 +184,7 @@ def get_user(user_search_term, profile="gitlab", ignore_cache=False):
         client = _get_client(profile)
         try:
             user = client.users.list(search=user_search_term)[0]
-            __context__[key] = {"id": user.id, "username": user.username, "email": user.email, "state": user.state, "2fa": user.two_factor_enabled}
+            __context__[key] = {"id": user.id, "username": user.username, "emails": [{"id": v.id, "email": v.email} for k, v in enumerate(user.emails.list())], "state": user.state, "2fa": user.two_factor_enabled}
         except IndexError:
             log.exception("User '{}' not found".format(user_search_term))
             return False
