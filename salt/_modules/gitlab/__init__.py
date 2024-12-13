@@ -217,7 +217,7 @@ def block_user(user_search_term, profile="gitlab"):
     if user.state == "active":
         user.block()
     if user.two_factor_enabled:
-        user.two_factor_enabled = False
+        client.http_patch("/users/{}/disable_two_factor".format(user.id))
     return not user.state == "active"
 
 
