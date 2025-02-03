@@ -1,8 +1,13 @@
 root_dir: .
 
+file_client: local
+
 file_roots:
   base:
     - salt
+
+module_dirs:
+  - salt
 
 pillar_roots:
   base:
