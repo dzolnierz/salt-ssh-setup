@@ -7,7 +7,7 @@ file_roots:
     - salt
 
 module_dirs:
-  - salt
+  - modules
 
 pillar_roots:
   base:
